@@ -47,7 +47,7 @@ const INITIAL_POSITION_PLAYER_TWO = {
   KNIGHT_LEFT: '8-b',
   KNIGHT_RIGHT: '8-g',
   PAWN_1: '7-a',
-  PAWN_2: '7-b',
+  PAWN_2: '3-b',
   PAWN_3: '7-c',
   PAWN_4: '7-d',
   PAWN_5: '7-e',
@@ -121,12 +121,36 @@ function getPossibleMoves(piece, position, game) {
   }
 }
 
+function getAttacks(piece, position, game) {
+  switch (piece) {
+    case 'PAWN_1':
+    case 'PAWN_2':
+    case 'PAWN_3':
+    case 'PAWN_4':
+    case 'PAWN_5':
+    case 'PAWN_6':
+    case 'PAWN_7':
+    case 'PAWN_8': {
+      return new Pawn(position, game.players).getPossibleAttacks();
+    }
+    default:
+      return [];
+  }
+}
+
 function markPossibleMoves(piece, position, game) {
   removeClass('possible-move');
   const possibleMovesPositions = getPossibleMoves(piece, position, game);
   possibleMovesPositions.forEach((position) => {
     const squareElement = getElementById(position);
     squareElement.className = squareElement.className + ' possible-move';
+  });
+
+  removeClass('possible-attack');
+  const possibleAttacksPositions = getAttacks(piece, position, game);
+  possibleAttacksPositions.forEach((position) => {
+    const squareElement = getElementById(position);
+    squareElement.className = squareElement.className + ' possible-attack';
   });
 }
 
@@ -166,6 +190,27 @@ window.onload = () => {
         color: 'player-black'
       }
     ],
+  };
+
+  let socket = new WebSocket("ws://127.0.0.1:8080/ws");
+  console.log("Attempting Connection...");
+
+  socket.onopen = () => {
+    console.log("Successfully Connected");
+    socket.send("Hi Server!")
+  };
+
+  socket.onclose = event => {
+    console.log("Socket Closed Connection: ", event);
+    socket.send("Client Closed!")
+  };
+
+  socket.onmessage = event => {
+    console.log("Message Received: ", event.data);
+  };
+
+  socket.onerror = error => {
+    console.log("Socket Error: ", error);
   };
 
   fillBoard();
