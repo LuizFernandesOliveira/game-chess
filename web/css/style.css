@@ -25,3 +25,21 @@
 .odd {
     background-color: #779954;
 }
+
+.player-white {
+    background-color: #FFFFFF;
+    color: black;
+}
+
+.player-black {
+    background-color: #000000;
+    color: white;
+}
+
+.selected-piece {
+    background-color: #ec3636;
+}
+
+.possible-move {
+    background-color: #f16464;
+}
