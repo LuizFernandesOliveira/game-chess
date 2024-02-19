@@ -138,7 +138,7 @@ function getAttacks(piece, position, game) {
   }
 }
 
-function markPossibleMoves(piece, position, game) {
+function markSquares(piece, position, game) {
   removeClass('possible-move');
   const possibleMovesPositions = getPossibleMoves(piece, position, game);
   possibleMovesPositions.forEach((position) => {
@@ -167,7 +167,7 @@ function fillPieces(game) {
       if (player.user.name === USER.name) {
         pieceElement.onclick = () => {
           markSelectedPiece(piece, position);
-          markPossibleMoves(piece, position, game);
+          markSquares(piece, position, game);
         }
       }
       squareElement.append(pieceElement);
@@ -190,27 +190,6 @@ window.onload = () => {
         color: 'player-black'
       }
     ],
-  };
-
-  let socket = new WebSocket("ws://127.0.0.1:8080/ws");
-  console.log("Attempting Connection...");
-
-  socket.onopen = () => {
-    console.log("Successfully Connected");
-    socket.send("Hi Server!")
-  };
-
-  socket.onclose = event => {
-    console.log("Socket Closed Connection: ", event);
-    socket.send("Client Closed!")
-  };
-
-  socket.onmessage = event => {
-    console.log("Message Received: ", event.data);
-  };
-
-  socket.onerror = error => {
-    console.log("Socket Error: ", error);
   };
 
   fillBoard();
