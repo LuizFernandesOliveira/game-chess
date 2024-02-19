@@ -104,7 +104,7 @@ function markSelectedPiece(piece, position) {
 }
 
 
-function getPossibleMoves(piece, position, game) {
+function getMarkMoves(piece, position, game) {
   switch (piece) {
     case 'PAWN_1':
     case 'PAWN_2':
@@ -114,7 +114,11 @@ function getPossibleMoves(piece, position, game) {
     case 'PAWN_6':
     case 'PAWN_7':
     case 'PAWN_8': {
-      return new Pawn(position, game.players).getPossibleMoves();
+      const pawn = new Pawn(position, game.players);
+      return {
+        possibleMoves: pawn.getPossibleMoves(),
+        attacks: pawn.getPossibleAttacks(),
+      };
     }
     case 'KNIGHT_LEFT':
     case 'KNIGHT_RIGHT': {
@@ -125,34 +129,17 @@ function getPossibleMoves(piece, position, game) {
   }
 }
 
-function getAttacks(piece, position, game) {
-  switch (piece) {
-    case 'PAWN_1':
-    case 'PAWN_2':
-    case 'PAWN_3':
-    case 'PAWN_4':
-    case 'PAWN_5':
-    case 'PAWN_6':
-    case 'PAWN_7':
-    case 'PAWN_8': {
-      return new Pawn(position, game.players).getPossibleAttacks();
-    }
-    default:
-      return [];
-  }
-}
-
 function markSquares(piece, position, game) {
+  const makeMovesPositions = getMarkMoves(piece, position, game);
+
   removeClass('possible-move');
-  const possibleMovesPositions = getPossibleMoves(piece, position, game);
-  possibleMovesPositions.forEach((position) => {
+  makeMovesPositions.possibleMoves.forEach((position) => {
     const squareElement = getElementById(position);
     squareElement.className = squareElement.className + ' possible-move';
   });
 
   removeClass('possible-attack');
-  const possibleAttacksPositions = getAttacks(piece, position, game);
-  possibleAttacksPositions.forEach((position) => {
+  makeMovesPositions.attacks.forEach((position) => {
     const squareElement = getElementById(position);
     squareElement.className = squareElement.className + ' possible-attack';
   });
