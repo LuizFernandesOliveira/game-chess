@@ -115,6 +115,7 @@ function getMarkMoves(piece, position, game) {
     case 'PAWN_7':
     case 'PAWN_8': {
       const pawn = new Pawn(position, game.players);
+      pawn.mountMoves()
       return {
         possibleMoves: pawn.getPossibleMoves(),
         attacks: pawn.getPossibleAttacks(),
@@ -122,7 +123,11 @@ function getMarkMoves(piece, position, game) {
     }
     case 'KNIGHT_LEFT':
     case 'KNIGHT_RIGHT': {
-      return new Knight(position, game.players).getPossibleMoves();
+      const knight = new Knight(position, game.players);
+      return {
+        possibleMoves: knight.getPossibleMoves(),
+        attacks: knight.getPossibleAttacks(),
+      };
     }
     default:
       return [];
