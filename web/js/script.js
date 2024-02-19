@@ -116,6 +116,10 @@ function getPossibleMoves(piece, position, game) {
     case 'PAWN_8': {
       return new Pawn(position, game.players).getPossibleMoves();
     }
+    case 'KNIGHT_LEFT':
+    case 'KNIGHT_RIGHT': {
+      return new Knight(position, game.players).getPossibleMoves();
+    }
     default:
       return [];
   }
