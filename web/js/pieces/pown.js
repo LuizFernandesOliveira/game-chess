@@ -37,10 +37,12 @@ class Pawn {
     const moveRightUp = `${rowNumber + 1}-${LETTER_MAPPED[keyLetter + 1]}`;
     const moveLeftUp = `${rowNumber + 1}-${LETTER_MAPPED[keyLetter - 1]}`;
 
-    if (POSSIBLE_POSITIONS.includes(moveRightUp)) {
+    const opponentPiecesPositions = Object.values(this.players[1].pieces);
+
+    if (opponentPiecesPositions.includes(moveRightUp)) {
       this.possibleAttacks.push(moveRightUp);
     }
-    if (POSSIBLE_POSITIONS.includes(moveLeftUp)) {
+    if (opponentPiecesPositions.includes(moveLeftUp)) {
       this.possibleAttacks.push(moveLeftUp);
     }
   }

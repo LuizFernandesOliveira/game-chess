@@ -82,19 +82,23 @@ class Rook {
     const columnNumber = parseInt(getKeyByValue(LETTER_MAPPED, column));
 
     const opponentPiecesPositions = Object.values(this.players[1].pieces);
+    const playerPiecesPositions = Object.values(this.players[0].pieces);
 
-    this.addUpAttacks(rowNumber, column, opponentPiecesPositions);
-    this.addDownAttacks(rowNumber, column, opponentPiecesPositions);
-    this.addLeftAttacks(row, columnNumber, opponentPiecesPositions);
-    this.addRightAttacks(row, columnNumber, opponentPiecesPositions);
+    this.addUpAttacks(rowNumber, column, opponentPiecesPositions, playerPiecesPositions);
+    this.addDownAttacks(rowNumber, column, opponentPiecesPositions, playerPiecesPositions);
+    this.addLeftAttacks(row, columnNumber, opponentPiecesPositions, playerPiecesPositions);
+    this.addRightAttacks(row, columnNumber, opponentPiecesPositions, playerPiecesPositions);
   }
 
-  addUpAttacks(rowNumber, column, opponentPiecesPositions) {
+  addUpAttacks(rowNumber, column, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = rowNumber; i <= 8; i++) {
       if (i === rowNumber) {
         continue;
       }
       const position = `${i}-${column}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -102,12 +106,15 @@ class Rook {
     }
   }
 
-  addDownAttacks(rowNumber, column, opponentPiecesPositions) {
+  addDownAttacks(rowNumber, column, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = rowNumber; i >= 1; i--) {
       if (i === rowNumber) {
         continue;
       }
       const position = `${i}-${column}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -115,12 +122,15 @@ class Rook {
     }
   }
 
-  addLeftAttacks(row, columnNumber, opponentPiecesPositions) {
+  addLeftAttacks(row, columnNumber, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = columnNumber; i >= 1; i--) {
       if (i === columnNumber) {
         continue;
       }
       const position = `${row}-${LETTER_MAPPED[i]}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -128,12 +138,15 @@ class Rook {
     }
   }
 
-  addRightAttacks(row, columnNumber, opponentPiecesPositions) {
+  addRightAttacks(row, columnNumber, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = columnNumber; i <= 8; i++) {
       if (i === columnNumber) {
         continue;
       }
       const position = `${row}-${LETTER_MAPPED[i]}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;

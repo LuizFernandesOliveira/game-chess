@@ -78,8 +78,10 @@ class Knight {
       `${rowNumber + 1}-${LETTER_MAPPED[keyLetter - 2]}`,
     ];
 
+    const opponentPiecesPositions = Object.values(this.players[1].pieces);
+
     attacks.forEach((attack) => {
-      if (containsPiecePosition(this, attack)) {
+      if (opponentPiecesPositions.includes(attack)) {
         this.possibleAttacks.push(attack);
       }
     });

@@ -138,20 +138,24 @@ class Queen {
     const columnNumber = parseInt(getKeyByValue(LETTER_MAPPED, column));
 
     const opponentPiecesPositions = Object.values(this.players[1].pieces);
+    const playerPiecesPositions = Object.values(this.players[0].pieces);
 
-    this.addUpAttacks(rowNumber, column, opponentPiecesPositions);
-    this.addDownAttacks(rowNumber, column, opponentPiecesPositions);
-    this.addLeftAttacks(row, columnNumber, opponentPiecesPositions);
-    this.addRightAttacks(row, columnNumber, opponentPiecesPositions);
-    this.addUpRightAttacks(rowNumber, columnNumber, opponentPiecesPositions);
-    this.addUpLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions);
-    this.addDownRightAttacks(rowNumber, columnNumber, opponentPiecesPositions);
-    this.addDownLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions);
+    this.addUpAttacks(rowNumber, column, opponentPiecesPositions, playerPiecesPositions);
+    this.addDownAttacks(rowNumber, column, opponentPiecesPositions, playerPiecesPositions);
+    this.addLeftAttacks(row, columnNumber, opponentPiecesPositions, playerPiecesPositions);
+    this.addRightAttacks(row, columnNumber, opponentPiecesPositions, playerPiecesPositions);
+    this.addUpRightAttacks(rowNumber, columnNumber, opponentPiecesPositions, playerPiecesPositions);
+    this.addUpLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions, playerPiecesPositions);
+    this.addDownRightAttacks(rowNumber, columnNumber, opponentPiecesPositions, playerPiecesPositions);
+    this.addDownLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions, playerPiecesPositions);
   }
 
-  addUpAttacks(rowNumber, column, opponentPiecesPositions) {
+  addUpAttacks(rowNumber, column, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = rowNumber + 1; i <= 8; i++) {
       const position = `${i}-${column}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -159,9 +163,12 @@ class Queen {
     }
   }
 
-  addDownAttacks(rowNumber, column, opponentPiecesPositions) {
+  addDownAttacks(rowNumber, column, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = rowNumber - 1; i >= 1; i--) {
       const position = `${i}-${column}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -169,9 +176,12 @@ class Queen {
     }
   }
 
-  addLeftAttacks(row, columnNumber, opponentPiecesPositions) {
+  addLeftAttacks(row, columnNumber, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = columnNumber - 1; i >= 1; i--) {
       const position = `${row}-${LETTER_MAPPED[i]}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -179,9 +189,12 @@ class Queen {
     }
   }
 
-  addRightAttacks(row, columnNumber, opponentPiecesPositions) {
+  addRightAttacks(row, columnNumber, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = columnNumber + 1; i <= 8; i++) {
       const position = `${row}-${LETTER_MAPPED[i]}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -189,9 +202,12 @@ class Queen {
     }
   }
 
-  addUpRightAttacks(rowNumber, columnNumber, opponentPiecesPositions) {
+  addUpRightAttacks(rowNumber, columnNumber, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = rowNumber + 1, j = columnNumber + 1; i <= 8 && j <= 8; i++, j++) {
       const position = `${i}-${LETTER_MAPPED[j]}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -199,9 +215,12 @@ class Queen {
     }
   }
 
-  addUpLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions) {
+  addUpLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = rowNumber + 1, j = columnNumber - 1; i <= 8 && j >= 1; i++, j--) {
       const position = `${i}-${LETTER_MAPPED[j]}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -209,9 +228,12 @@ class Queen {
     }
   }
 
-  addDownRightAttacks(rowNumber, columnNumber, opponentPiecesPositions) {
+  addDownRightAttacks(rowNumber, columnNumber, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = rowNumber - 1, j = columnNumber + 1; i >= 1 && j <= 8; i--, j++) {
       const position = `${i}-${LETTER_MAPPED[j]}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
@@ -219,9 +241,12 @@ class Queen {
     }
   }
 
-  addDownLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions) {
+  addDownLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions, playerPiecesPositions) {
     for (let i = rowNumber - 1, j = columnNumber - 1; i >= 1 && j >= 1; i--, j--) {
       const position = `${i}-${LETTER_MAPPED[j]}`;
+      if (playerPiecesPositions.includes(position)) {
+        break;
+      }
       if (opponentPiecesPositions.includes(position)) {
         this.possibleAttacks.push(position);
         break;
