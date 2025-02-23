@@ -10,6 +10,7 @@ class Rook {
     this.possibleMoves = [];
     this.possibleAttacks = [];
     this.fillPossibleMoves();
+    this.fillPossibleAttacks();
   }
 
   fillPossibleMoves() {
@@ -75,8 +76,69 @@ class Rook {
     }
   }
 
-  getPossibleAttacks() {
-    const possibleAttacks = [];
-    return possibleAttacks;
+  fillPossibleAttacks() {
+    const [row, column] = this.position.split('-');
+    const rowNumber = parseInt(row);
+    const columnNumber = parseInt(getKeyByValue(LETTER_MAPPED, column));
+
+    const opponentPiecesPositions = Object.values(this.players[1].pieces);
+
+    this.addUpAttacks(rowNumber, column, opponentPiecesPositions);
+    this.addDownAttacks(rowNumber, column, opponentPiecesPositions);
+    this.addLeftAttacks(row, columnNumber, opponentPiecesPositions);
+    this.addRightAttacks(row, columnNumber, opponentPiecesPositions);
   }
+
+  addUpAttacks(rowNumber, column, opponentPiecesPositions) {
+    for (let i = rowNumber; i <= 8; i++) {
+      if (i === rowNumber) {
+        continue;
+      }
+      const position = `${i}-${column}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addDownAttacks(rowNumber, column, opponentPiecesPositions) {
+    for (let i = rowNumber; i >= 1; i--) {
+      if (i === rowNumber) {
+        continue;
+      }
+      const position = `${i}-${column}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addLeftAttacks(row, columnNumber, opponentPiecesPositions) {
+    for (let i = columnNumber; i >= 1; i--) {
+      if (i === columnNumber) {
+        continue;
+      }
+      const position = `${row}-${LETTER_MAPPED[i]}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addRightAttacks(row, columnNumber, opponentPiecesPositions) {
+    for (let i = columnNumber; i <= 8; i++) {
+      if (i === columnNumber) {
+        continue;
+      }
+      const position = `${row}-${LETTER_MAPPED[i]}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
 }

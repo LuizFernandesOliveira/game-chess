@@ -10,6 +10,7 @@ class Queen {
     this.possibleMoves = [];
     this.possibleAttacks = [];
     this.fillPossibleMoves();
+    this.fillPossibleAttacks();
   }
 
   fillPossibleMoves() {
@@ -131,8 +132,100 @@ class Queen {
     }
   }
 
-  getPossibleAttacks() {
-    const possibleAttacks = [];
-    return possibleAttacks;
+  fillPossibleAttacks() {
+    const [row, column] = this.position.split('-');
+    const rowNumber = parseInt(row);
+    const columnNumber = parseInt(getKeyByValue(LETTER_MAPPED, column));
+
+    const opponentPiecesPositions = Object.values(this.players[1].pieces);
+
+    this.addUpAttacks(rowNumber, column, opponentPiecesPositions);
+    this.addDownAttacks(rowNumber, column, opponentPiecesPositions);
+    this.addLeftAttacks(row, columnNumber, opponentPiecesPositions);
+    this.addRightAttacks(row, columnNumber, opponentPiecesPositions);
+    this.addUpRightAttacks(rowNumber, columnNumber, opponentPiecesPositions);
+    this.addUpLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions);
+    this.addDownRightAttacks(rowNumber, columnNumber, opponentPiecesPositions);
+    this.addDownLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions);
+  }
+
+  addUpAttacks(rowNumber, column, opponentPiecesPositions) {
+    for (let i = rowNumber + 1; i <= 8; i++) {
+      const position = `${i}-${column}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addDownAttacks(rowNumber, column, opponentPiecesPositions) {
+    for (let i = rowNumber - 1; i >= 1; i--) {
+      const position = `${i}-${column}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addLeftAttacks(row, columnNumber, opponentPiecesPositions) {
+    for (let i = columnNumber - 1; i >= 1; i--) {
+      const position = `${row}-${LETTER_MAPPED[i]}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addRightAttacks(row, columnNumber, opponentPiecesPositions) {
+    for (let i = columnNumber + 1; i <= 8; i++) {
+      const position = `${row}-${LETTER_MAPPED[i]}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addUpRightAttacks(rowNumber, columnNumber, opponentPiecesPositions) {
+    for (let i = rowNumber + 1, j = columnNumber + 1; i <= 8 && j <= 8; i++, j++) {
+      const position = `${i}-${LETTER_MAPPED[j]}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addUpLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions) {
+    for (let i = rowNumber + 1, j = columnNumber - 1; i <= 8 && j >= 1; i++, j--) {
+      const position = `${i}-${LETTER_MAPPED[j]}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addDownRightAttacks(rowNumber, columnNumber, opponentPiecesPositions) {
+    for (let i = rowNumber - 1, j = columnNumber + 1; i >= 1 && j <= 8; i--, j++) {
+      const position = `${i}-${LETTER_MAPPED[j]}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
+  }
+
+  addDownLeftAttacks(rowNumber, columnNumber, opponentPiecesPositions) {
+    for (let i = rowNumber - 1, j = columnNumber - 1; i >= 1 && j >= 1; i--, j--) {
+      const position = `${i}-${LETTER_MAPPED[j]}`;
+      if (opponentPiecesPositions.includes(position)) {
+        this.possibleAttacks.push(position);
+        break;
+      }
+    }
   }
 }

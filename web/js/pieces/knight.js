@@ -10,6 +10,7 @@ class Knight {
     this.possibleMoves = [];
     this.possibleAttacks = [];
     this.fillPossibleMoves();
+    this.fillPossibleAttacks();
   }
 
   fillPossibleMoves() {
@@ -61,8 +62,26 @@ class Knight {
     });
   }
 
-  getPossibleAttacks() {
-    const possibleAttacks = [];
-    return possibleAttacks;
+  fillPossibleAttacks() {
+    const [row, column] = this.position.split('-');
+    const rowNumber = parseInt(row);
+    const keyLetter = parseInt(getKeyByValue(LETTER_MAPPED, column));
+
+    const attacks = [
+      `${rowNumber + 2}-${LETTER_MAPPED[keyLetter + 1]}`,
+      `${rowNumber + 2}-${LETTER_MAPPED[keyLetter - 1]}`,
+      `${rowNumber - 2}-${LETTER_MAPPED[keyLetter + 1]}`,
+      `${rowNumber - 2}-${LETTER_MAPPED[keyLetter - 1]}`,
+      `${rowNumber + 1}-${LETTER_MAPPED[keyLetter + 2]}`,
+      `${rowNumber - 1}-${LETTER_MAPPED[keyLetter + 2]}`,
+      `${rowNumber - 1}-${LETTER_MAPPED[keyLetter - 2]}`,
+      `${rowNumber + 1}-${LETTER_MAPPED[keyLetter - 2]}`,
+    ];
+
+    attacks.forEach((attack) => {
+      if (containsPiecePosition(this, attack)) {
+        this.possibleAttacks.push(attack);
+      }
+    });
   }
 }

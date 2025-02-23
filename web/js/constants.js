@@ -27,7 +27,7 @@ const LETTER_MAPPED = {
 }
 const INITIAL_POSITION_PLAYER_WHITE = {
   KING: '1-e',
-  QUEEN: '5-d',
+  QUEEN: '1-d',
   ROOK_LEFT: '1-a',
   ROOK_RIGHT: '1-h',
   BISHOP_LEFT: '1-c',
