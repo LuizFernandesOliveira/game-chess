@@ -1,25 +1,10 @@
 class Pawn {
   _position;
   _players;
-  _moves;
 
   constructor(position, players) {
     this._position = position;
     this._players = players;
-    this.mountMoves();
-  }
-
-  mountMoves() {
-    const [row, column] = this._position.split('-');
-    const rowNumber = parseInt(row);
-
-    const moveOneUp = `${rowNumber + 1}-${column}`;
-    const moveTwoUp = `${rowNumber + 2}-${column}`;
-
-    this._moves = [
-      moveOneUp,
-      moveTwoUp,
-    ];
   }
 
   getPossibleMoves() {
