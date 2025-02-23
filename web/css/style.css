@@ -41,9 +41,11 @@
 }
 
 .possible-move {
-    background-color: #f16464;
+    background-color: #c9eca8;
+    border-radius: 50%;
 }
 
 .possible-attack {
     background-color: #f6c2c2;
+    border-radius: 50%;
 }

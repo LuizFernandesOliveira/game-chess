@@ -8,3 +8,7 @@ function removeClass(clazz) {
     possibleMoves[i].className = possibleMoves[i].className.replace(clazz, '');
   }
 }
+
+function appendClass(element, clazz) {
+  element.className = `${element.className} ${clazz}`;
+}

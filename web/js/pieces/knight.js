@@ -59,4 +59,9 @@ class Knight {
 
     return possibleMoves;
   }
+
+  getPossibleAttacks() {
+    const possibleAttacks = [];
+    return possibleAttacks;
+  }
 }

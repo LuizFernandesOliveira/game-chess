@@ -19,7 +19,7 @@ const LETTER_MAPPED = {
   7: 'g',
   8: 'h',
 }
-const INITIAL_POSITION_PLAYER_ONE = {
+const INITIAL_POSITION_PLAYER_WHITE = {
   KING: '1-e',
   QUEEN: '1-d',
   ROOK_LEFT: '1-a',
@@ -37,7 +37,7 @@ const INITIAL_POSITION_PLAYER_ONE = {
   PAWN_7: '2-g',
   PAWN_8: '2-h',
 }
-const INITIAL_POSITION_PLAYER_TWO = {
+const INITIAL_POSITION_PLAYER_BLACK = {
   KING: '8-e',
   QUEEN: '8-d',
   ROOK_LEFT: '8-a',
@@ -47,7 +47,7 @@ const INITIAL_POSITION_PLAYER_TWO = {
   KNIGHT_LEFT: '8-b',
   KNIGHT_RIGHT: '8-g',
   PAWN_1: '7-a',
-  PAWN_2: '3-b',
+  PAWN_2: '7-b',
   PAWN_3: '7-c',
   PAWN_4: '7-d',
   PAWN_5: '7-e',
@@ -73,6 +73,7 @@ const PIECES_LABEL = {
   PAWN_7: 'pawn',
   PAWN_8: 'pawn',
 }
+
 const USER = {
   name: 'nando',
 }
@@ -88,8 +89,7 @@ function fillBoard() {
   for (let i = 1; i <= SQUARES; i++) {
     for (let j = 1; j <= SQUARES; j++) {
       const squareElement = document.createElement('div');
-      const position = `${i}-${LETTER_MAPPED[j]}`;
-      squareElement.id = position;
+      squareElement.id = `${i}-${LETTER_MAPPED[j]}`;
       squareElement.className = 'square';
       squareElement.className = squareElement.className + ((i % 2 === 0) === (j % 2 === 0) ? ' even' : ' odd');
       boardElement.append(squareElement);
@@ -98,13 +98,12 @@ function fillBoard() {
 }
 
 function markSelectedPiece(piece, position) {
-  removeClass('selected-piece')
+  removeClass(CLASS_NAMES.SELECTED_PIECE)
   const squareElement = getElementById(position);
-  squareElement.className = squareElement.className + ' selected-piece';
+  appendClass(squareElement, CLASS_NAMES.SELECTED_PIECE);
 }
 
-
-function getMarkMoves(piece, position, game) {
+function getObjectPieces(piece, position, game) {
   switch (piece) {
     case 'PAWN_1':
     case 'PAWN_2':
@@ -113,40 +112,33 @@ function getMarkMoves(piece, position, game) {
     case 'PAWN_5':
     case 'PAWN_6':
     case 'PAWN_7':
-    case 'PAWN_8': {
-      const pawn = new Pawn(position, game.players);
-      pawn.mountMoves()
-      return {
-        possibleMoves: pawn.getPossibleMoves(),
-        attacks: pawn.getPossibleAttacks(),
-      };
-    }
+    case 'PAWN_8': return new Pawn(position, game.players);
     case 'KNIGHT_LEFT':
-    case 'KNIGHT_RIGHT': {
-      const knight = new Knight(position, game.players);
-      return {
-        possibleMoves: knight.getPossibleMoves(),
-        attacks: knight.getPossibleAttacks(),
-      };
-    }
+    case 'KNIGHT_RIGHT': return new Knight(position, game.players);
+    case 'ROOK_LEFT':
+    case 'ROOK_RIGHT': return new Rook(position, game.players);
+    case 'BISHOP_LEFT':
+    case 'BISHOP_RIGHT': return new Bishop(position, game.players);
+    case 'QUEEN': return new Queen(position, game.players);
+    case 'KING': return new King(position, game.players);
     default:
-      return [];
+      throw new Error('Piece not found');
   }
 }
 
-function markSquares(piece, position, game) {
-  const makeMovesPositions = getMarkMoves(piece, position, game);
+function markSquaresPossibleMoves(piece, position, game) {
+  const pieces = getObjectPieces(piece, position, game);
 
-  removeClass('possible-move');
-  makeMovesPositions.possibleMoves.forEach((position) => {
+  removeClass(CLASS_NAMES.POSSIBLE_MOVE);
+  pieces.getPossibleMoves().forEach((position) => {
     const squareElement = getElementById(position);
-    squareElement.className = squareElement.className + ' possible-move';
+    appendClass(squareElement, CLASS_NAMES.POSSIBLE_MOVE);
   });
 
-  removeClass('possible-attack');
-  makeMovesPositions.attacks.forEach((position) => {
+  removeClass(CLASS_NAMES.POSSIBLE_ATTACK);
+  pieces.getPossibleAttacks().forEach((position) => {
     const squareElement = getElementById(position);
-    squareElement.className = squareElement.className + ' possible-attack';
+    appendClass(squareElement, CLASS_NAMES.POSSIBLE_ATTACK);
   });
 }
 
@@ -163,7 +155,7 @@ function fillPieces(game) {
       if (player.user.name === USER.name) {
         pieceElement.onclick = () => {
           markSelectedPiece(piece, position);
-          markSquares(piece, position, game);
+          markSquaresPossibleMoves(piece, position, game);
         }
       }
       squareElement.append(pieceElement);
@@ -177,15 +169,16 @@ window.onload = () => {
     players: [
       {
         user: USER,
-        pieces: { ...INITIAL_POSITION_PLAYER_ONE },
+        pieces: { ...INITIAL_POSITION_PLAYER_WHITE },
         color: 'player-white'
       },
       {
         user: OPPONENT,
-        pieces: {...INITIAL_POSITION_PLAYER_TWO},
+        pieces: {...INITIAL_POSITION_PLAYER_BLACK},
         color: 'player-black'
       }
     ],
+    history: []
   };
 
   fillBoard();

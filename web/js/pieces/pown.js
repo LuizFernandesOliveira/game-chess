@@ -6,6 +6,7 @@ class Pawn {
   constructor(position, players) {
     this._position = position;
     this._players = players;
+    this.mountMoves();
   }
 
   mountMoves() {
