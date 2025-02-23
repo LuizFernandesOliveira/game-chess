@@ -60,7 +60,7 @@ function markSquaresPossibleMoves(piece, position, game) {
   });
 
   removeClass(CLASS_NAMES.POSSIBLE_ATTACK);
-  pieces.getPossibleAttacks().forEach((position) => {
+  pieces.possibleAttacks.forEach((position) => {
     const squareElement = getElementById(position);
     appendClass(squareElement, CLASS_NAMES.POSSIBLE_ATTACK);
   });

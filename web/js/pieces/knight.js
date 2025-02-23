@@ -55,7 +55,7 @@ class Knight {
     }
 
     positions.forEach((position) => {
-      if (containsPiecePosition(this, position)) {
+      if (!containsPiecePosition(this, position)) {
         this.possibleMoves.push(position);
       }
     });

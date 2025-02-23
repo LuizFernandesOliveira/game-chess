@@ -27,14 +27,14 @@ const LETTER_MAPPED = {
 }
 const INITIAL_POSITION_PLAYER_WHITE = {
   KING: '1-e',
-  QUEEN: '1-d',
+  QUEEN: '5-d',
   ROOK_LEFT: '1-a',
   ROOK_RIGHT: '1-h',
   BISHOP_LEFT: '1-c',
   BISHOP_RIGHT: '1-f',
   KNIGHT_LEFT: '1-b',
   KNIGHT_RIGHT: '1-g',
-  PAWN_1: '6-a',
+  PAWN_1: '2-a',
   PAWN_2: '2-b',
   PAWN_3: '2-c',
   PAWN_4: '2-d',
