@@ -1,32 +1,31 @@
 class Pawn {
-  _position;
-  _players;
+  position;
+  players;
+  possibleMoves = [];
+  possibleAttacks = [];
 
   constructor(position, players) {
-    this._position = position;
-    this._players = players;
+    this.position = position;
+    this.players = players;
+    this.possibleMoves = [];
+    this.possibleAttacks = [];
+    this.fillPossibleMoves();
   }
 
-  getPossibleMoves() {
-    const possibleMoves = [];
-    const [row, column] = this._position.split('-');
+  fillPossibleMoves() {
+    const [row, column] = this.position.split('-');
     const rowNumber = parseInt(row);
 
     const moveOneUp = `${rowNumber + 1}-${column}`;
     const moveTwoUp = `${rowNumber + 2}-${column}`;
 
-    const piecesPositions = [...Object.values(this._players[0].pieces), ...Object.values(this._players[1].pieces)];
+    if (!containsPiecePosition(this, moveOneUp)) {
+      this.possibleMoves.push(moveOneUp);
 
-    if (piecesPositions.includes(moveOneUp)) {
-      return possibleMoves;
+      if (rowNumber === 2 && !containsPiecePosition(this, moveTwoUp)) {
+        this.possibleMoves.push(moveTwoUp);
+      }
     }
-    possibleMoves.push(moveOneUp);
-
-    if (rowNumber === 2 && !piecesPositions.includes(moveTwoUp)) {
-      possibleMoves.push(moveTwoUp);
-    }
-
-    return possibleMoves;
   }
 
   getPossibleAttacks() {
@@ -34,7 +33,7 @@ class Pawn {
     const [row, column] = this._position.split('-');
     const rowNumber = parseInt(row);
 
-    const opponentPiecesPositions = Object.values(this._players[1].pieces);
+    const opponentPiecesPositions = Object.values(this.players[1].pieces);
 
     const keyLetter = parseInt(getKeyByValue(LETTER_MAPPED, column));
     const attacks = [

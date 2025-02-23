@@ -1,15 +1,14 @@
 class King {
-  _position;
-  _players;
+  position;
+  players;
+  possibleMoves = [];
+  possibleAttacks = [];
 
   constructor(position, players) {
-    this._position = position;
-    this._players = players;
-  }
-
-  getPossibleMoves() {
-    const possibleMoves = [];
-    return possibleMoves;
+    this.position = position;
+    this.players = players;
+    this.possibleMoves = [];
+    this.possibleAttacks = [];
   }
 
   getPossibleAttacks() {

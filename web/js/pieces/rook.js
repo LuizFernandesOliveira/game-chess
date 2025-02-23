@@ -1,86 +1,82 @@
 class Rook {
-  _position;
-  _players;
-  _moves;
+  position;
+  players;
+  possibleMoves = [];
+  possibleAttacks = [];
 
   constructor(position, players) {
-    this._position = position;
-    this._players = players;
+    this.position = position;
+    this.players = players;
+    this.possibleMoves = [];
+    this.possibleAttacks = [];
+    this.fillPossibleMoves();
   }
 
-  getPossibleMoves() {
-    const possibleMoves = [];
-    const [row, column] = this._position.split('-');
+  fillPossibleMoves() {
+    const [row, column] = this.position.split('-');
     const rowNumber = parseInt(row);
     const columnNumber = parseInt(getKeyByValue(LETTER_MAPPED, column));
 
-    this._addUpMoves(possibleMoves, rowNumber, column);
-    this._addDownMoves(possibleMoves, rowNumber, column);
-    this._addLeftMoves(possibleMoves, row, columnNumber);
-    this._addRightMoves(possibleMoves, row, columnNumber);
-
-    return possibleMoves;
+    this.addUpMoves(rowNumber, column);
+    this.addDownMoves(rowNumber, column);
+    this.addLeftMoves(row, columnNumber);
+    this.addRightMoves(row, columnNumber);
   }
 
-  _addUpMoves(possibleMoves, rowNumber, column) {
+  addUpMoves(rowNumber, column) {
     for (let i = rowNumber; i <= 8; i++) {
       if (i === rowNumber) {
         continue;
       }
       const position = `${i}-${column}`;
-      if (this._containsPiece(position)) {
+      if (containsPiecePosition(this, position)) {
         break;
       }
-      possibleMoves.push(position);
+      this.possibleMoves.push(position);
     }
   }
 
-  _addDownMoves(possibleMoves, rowNumber, column) {
+  addDownMoves(rowNumber, column) {
     for (let i = rowNumber; i >= 1; i--) {
       if (i === rowNumber) {
         continue;
       }
       const position = `${i}-${column}`;
-      if (this._containsPiece(position)) {
+      if (containsPiecePosition(this, position)) {
         break;
       }
-      possibleMoves.push(position);
+      this.possibleMoves.push(position);
     }
   }
 
-  _addLeftMoves(possibleMoves, row, columnNumber) {
+  addLeftMoves(row, columnNumber) {
     for (let i = columnNumber; i >= 1; i--) {
       if (i === columnNumber) {
         continue;
       }
       const position = `${row}-${LETTER_MAPPED[i]}`;
-      if (this._containsPiece(position)) {
+      if (containsPiecePosition(this, position)) {
         break;
       }
-      possibleMoves.push(position);
+      this.possibleMoves.push(position);
     }
   }
 
-  _addRightMoves(possibleMoves, row, columnNumber) {
+  addRightMoves(row, columnNumber) {
     for (let i = columnNumber; i <= 8; i++) {
       if (i === columnNumber) {
         continue;
       }
       const position = `${row}-${LETTER_MAPPED[i]}`;
-      if (this._containsPiece(position)) {
+      if (containsPiecePosition(this, position)) {
         break;
       }
-      possibleMoves.push(position);
+      this.possibleMoves.push(position);
     }
   }
 
   getPossibleAttacks() {
     const possibleAttacks = [];
     return possibleAttacks;
-  }
-
-  _containsPiece(position) {
-    const piecesPositions = [...Object.values(this._players[0].pieces), ...Object.values(this._players[1].pieces)];
-    return piecesPositions.includes(position);
   }
 }

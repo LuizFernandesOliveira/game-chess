@@ -1,15 +1,19 @@
 class Knight {
-  _position;
-  _players;
+  position;
+  players;
+  possibleMoves = [];
+  possibleAttacks = [];
 
   constructor(position, players) {
-    this._position = position;
-    this._players = players;
+    this.position = position;
+    this.players = players;
+    this.possibleMoves = [];
+    this.possibleAttacks = [];
+    this.fillPossibleMoves();
   }
 
-  getPossibleMoves() {
-    const possibleMoves = [];
-    const [row, column] = this._position.split('-');
+  fillPossibleMoves() {
+    const [row, column] = this.position.split('-');
     const rowNumber = parseInt(row);
     const keyLetter = parseInt(getKeyByValue(LETTER_MAPPED, column));
 
@@ -23,41 +27,38 @@ class Knight {
     const moveLetterLeftDown = `${rowNumber - 1}-${LETTER_MAPPED[keyLetter - 2]}`;
     const moveLetterRightDown = `${rowNumber + 1}-${LETTER_MAPPED[keyLetter - 2]}`;
 
-    const moves = [];
+    const positions = [];
 
     if (POSSIBLE_POSITIONS.includes(moveNumberRightLeft)) {
-      moves.push(moveNumberRightLeft);
+      positions.push(moveNumberRightLeft);
     }
     if (POSSIBLE_POSITIONS.includes(moveNumberLeftRight)) {
-      moves.push(moveNumberLeftRight);
+      positions.push(moveNumberLeftRight);
     }
     if (POSSIBLE_POSITIONS.includes(moveNumberLeftDown)) {
-      moves.push(moveNumberLeftDown);
+      positions.push(moveNumberLeftDown);
     }
     if (POSSIBLE_POSITIONS.includes(moveNumberRightDown)) {
-      moves.push(moveNumberRightDown);
+      positions.push(moveNumberRightDown);
     }
     if (POSSIBLE_POSITIONS.includes(moveLetterRightLeft)) {
-      moves.push(moveLetterRightLeft);
+      positions.push(moveLetterRightLeft);
     }
     if (POSSIBLE_POSITIONS.includes(moveLetterLeftRight)) {
-      moves.push(moveLetterLeftRight);
+      positions.push(moveLetterLeftRight);
     }
     if (POSSIBLE_POSITIONS.includes(moveLetterLeftDown)) {
-      moves.push(moveLetterLeftDown);
+      positions.push(moveLetterLeftDown);
     }
     if (POSSIBLE_POSITIONS.includes(moveLetterRightDown)) {
-      moves.push(moveLetterRightDown);
+      positions.push(moveLetterRightDown);
     }
 
-    const piecesPositions = [...Object.values(this._players[0].pieces), ...Object.values(this._players[1].pieces)];
-    moves.forEach((move) => {
-      if (!piecesPositions.includes(move)) {
-        possibleMoves.push(move);
+    positions.forEach((position) => {
+      if (containsPiecePosition(this, position)) {
+        this.possibleMoves.push(position);
       }
     });
-
-    return possibleMoves;
   }
 
   getPossibleAttacks() {

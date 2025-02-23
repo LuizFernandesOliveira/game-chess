@@ -54,7 +54,7 @@ function markSquaresPossibleMoves(piece, position, game) {
   const pieces = getObjectPieces(piece, position, game);
 
   removeClass(CLASS_NAMES.POSSIBLE_MOVE);
-  pieces.getPossibleMoves().forEach((position) => {
+  pieces.possibleMoves.forEach((position) => {
     const squareElement = getElementById(position);
     appendClass(squareElement, CLASS_NAMES.POSSIBLE_MOVE);
   });

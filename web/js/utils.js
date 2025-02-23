@@ -12,3 +12,8 @@ function removeClass(clazz) {
 function appendClass(element, clazz) {
   element.className = `${element.className} ${clazz}`;
 }
+
+function containsPiecePosition(piece, position) {
+  const piecesPositions = [...Object.values(piece.players[0].pieces), ...Object.values(piece.players[1].pieces)];
+  return piecesPositions.includes(position);
+}
