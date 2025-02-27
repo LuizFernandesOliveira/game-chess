@@ -1,11 +1,17 @@
-const USER = {
-  name: 'nando',
-}
+const USER = {}
+
 const OPPONENT = {
   name: 'opponent',
 }
 
 const getElementById = (id) => document.getElementById(id);
+
+function fillUser(user) {
+  const panelElement = getElementById('users');
+  const userElement = document.createElement('li');
+  userElement.textContent = user.name;
+  panelElement.append(userElement);
+}
 
 
 function fillBoard() {
@@ -87,24 +93,44 @@ function fillPieces(game) {
   });
 }
 
+function setFormEvent() {
+  const form = getElementById('form');
+  form.onsubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const name = formData.get('name');
+    USER.name = name;
+    USER.id = crypto.randomUUID();
+
+    const game = {
+      players: [
+        {
+          user: USER,
+          pieces: { ...INITIAL_POSITION_PLAYER_WHITE },
+          color: 'player-white'
+        },
+        {
+          user: OPPONENT,
+          pieces: {...INITIAL_POSITION_PLAYER_BLACK},
+          color: 'player-black'
+        }
+      ],
+      history: []
+    };
+
+    fillUser(USER);
+    fillPieces(game);
+    startWebSocket(USER);
+  }
+}
+
+function setEvents() {
+  setFormEvent();
+}
+
 window.onload = () => {
-  setProperties()
-  const game = {
-    players: [
-      {
-        user: USER,
-        pieces: { ...INITIAL_POSITION_PLAYER_WHITE },
-        color: 'player-white'
-      },
-      {
-        user: OPPONENT,
-        pieces: {...INITIAL_POSITION_PLAYER_BLACK},
-        color: 'player-black'
-      }
-    ],
-    history: []
-  };
+  setProperties();
+  setEvents();
 
   fillBoard();
-  fillPieces(game);
 };

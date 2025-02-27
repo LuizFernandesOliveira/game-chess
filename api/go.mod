@@ -5,9 +5,11 @@ go 1.23.0
 toolchain go1.23.1
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/gorilla/websocket v1.5.3
 	github.com/sdkopen/sdkopen-go-webbase v1.0.5
 	github.com/sdkopen/sdkopen-go-webserver v1.0.6
+	github.com/sdkopen/sdkopen-go-websocket v1.0.2
 )
 
 require (
@@ -18,7 +20,6 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.25.0 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	golang.org/x/crypto v0.32.0 // indirect
 	golang.org/x/net v0.34.0 // indirect

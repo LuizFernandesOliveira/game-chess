@@ -1,13 +1,14 @@
 package main
 
 import (
-	"game-chess/src/application/controllers"
-	"github.com/sdkopen/sdkopen-go-webbase/server"
+	"game-chess/src/application/websockets"
 	sdkopenWebServer "github.com/sdkopen/sdkopen-go-webserver"
+	sdkopenWebSocket "github.com/sdkopen/sdkopen-go-websocket"
 )
 
 func main() {
-	server.RegisterController(controllers.NewWebSocketController())
-
+	sdkopenWebSocket.RegisterWebSocketEvent(websockets.NewUserSignInWebSocket().Event())
+	sdkopenWebSocket.RegisterWebSocketEvent(websockets.NewUserSignOutWebSocket().Event())
+	sdkopenWebSocket.Initialize()
 	sdkopenWebServer.Initialize()
 }

@@ -1,4 +1,9 @@
 #app {
+    display: flex;
+}
+
+#panel {
+
 }
 
 #board {
